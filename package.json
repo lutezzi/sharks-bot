@@ -1,0 +1,30 @@
+{
+  "name": "sharks-bot",
+  "version": "1.0.0",
+  "description": "Slash komutlarina sahip, genisletilebilir bir Discord moderasyon botu.",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy": "node src/deploy-commands.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop sharks-bot",
+    "pm2:restart": "pm2 restart sharks-bot",
+    "pm2:logs": "pm2 logs sharks-bot"
+  },
+  "keywords": [
+    "discord",
+    "bot",
+    "moderation",
+    "discord.js"
+  ],
+  "author": "lutezzi",
+  "license": "MIT",
+  "dependencies": {
+    "@discordjs/voice": "^0.19.2",
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5",
+    "libsodium-wrappers": "^0.8.4",
+    "undici": "^6.24.1"
+  }
+}

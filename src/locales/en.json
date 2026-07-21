@@ -1,0 +1,212 @@
+{
+  "embeds": {
+    "welcome": {
+      "title": "👋 Welcome!",
+      "description": "{member} joined our server! Welcome aboard, have fun.",
+      "memberCountField": "Member Count"
+    },
+    "leave": {
+      "title": "👋 Goodbye",
+      "description": "**{userTag}** left our server.",
+      "memberCountField": "Member Count"
+    },
+    "colorMenu": {
+      "title": "🎨 Color Selection",
+      "description": "Pick a color from the menu below to change your name color.\nSelecting another color replaces the previous one. Use the \"Remove\" option to clear your selection."
+    },
+    "genderMenu": {
+      "title": "🚻 Gender Selection",
+      "description": "Pick a gender role from the menu below.\nSelecting another option replaces the previous one. Use the \"Remove\" option to clear your selection."
+    },
+    "roleMenu": {
+      "title": "🏷️ Role Selection",
+      "description": "Choose the roles you want below to receive notifications for your interests.\nYou can select multiple roles and click again to remove them."
+    },
+    "moderation": {
+      "titleTemplate": "🔨 {action}",
+      "userField": "User",
+      "moderatorField": "Moderator",
+      "reasonField": "Reason",
+      "noReason": "No reason provided.",
+      "durationField": "Duration"
+    }
+  },
+  "selectMenus": {
+    "removeOption": {
+      "label": "Remove",
+      "emoji": "❌",
+      "description": "Clears your current selection."
+    },
+    "colorPlaceholder": "🎨 Select a Color Role",
+    "genderPlaceholder": "🚻 Select a Gender Role"
+  },
+  "interactions": {
+    "genericCommandError": "An error occurred while running this command.",
+    "genericComponentError": "This action could not be completed. Make sure the bot's role is above the target role and that role IDs in the config files are correct.",
+    "exclusiveRoleRemoved": "{label} selection removed.",
+    "exclusiveRoleSet": "{label} set successfully!",
+    "reactionRoleRemoved": "🏷️ Role removed.",
+    "reactionRoleAdded": "🏷️ Role added!",
+    "colorRoleLabel": "🎨 Color role",
+    "genderRoleLabel": "🚻 Gender role"
+  },
+  "startup": {
+    "readyTitle": "Bot Ready!",
+    "guildCount": "Guilds:",
+    "totalMembers": "Total Members:",
+    "guildList": "Guilds:",
+    "guildMemberCount": "members: {count}",
+    "loadedCommands": "Loaded Commands ({count}):",
+    "readyMessage": "Bot is ready for commands and interactions."
+  },
+  "commands": {
+    "ban": {
+      "description": "Ban a user from the server.",
+      "options": {
+        "kullanici": "User to ban",
+        "sebep": "Ban reason",
+        "mesajSilGun": "Delete the user's messages from the last X days (0-7)"
+      },
+      "actionName": "User Banned",
+      "notBannable": "❌ I can't ban this user. Check the role hierarchy.",
+      "success": "✅ Action completed."
+    },
+    "unban": {
+      "description": "Remove a user's ban.",
+      "options": {
+        "kullaniciId": "ID of the user to unban",
+        "sebep": "Unban reason"
+      },
+      "actionName": "Ban Removed",
+      "notFound": "❌ No banned user was found with this ID.",
+      "success": "✅ Action completed."
+    },
+    "kick": {
+      "description": "Kick a user from the server.",
+      "options": {
+        "kullanici": "User to kick",
+        "sebep": "Kick reason"
+      },
+      "actionName": "User Kicked",
+      "notFound": "❌ This user was not found in the server.",
+      "notKickable": "❌ I can't kick this user. Check the role hierarchy.",
+      "success": "✅ Action completed."
+    },
+    "mute": {
+      "description": "Timeout a user for the specified duration.",
+      "options": {
+        "kullanici": "User to mute",
+        "sure": "Mute duration (e.g. 10m, 2h, 1d). Default: 10m",
+        "sebep": "Mute reason"
+      },
+      "actionName": "User Muted",
+      "invalidDuration": "❌ Invalid duration format. Example: `10m`, `2h`, `1d`, `1w`.",
+      "durationTooLong": "❌ Mute duration cannot exceed 28 days.",
+      "notFound": "❌ This user was not found in the server.",
+      "notModeratable": "❌ I can't mute this user. Check the role hierarchy.",
+      "success": "✅ Action completed."
+    },
+    "unmute": {
+      "description": "Remove a user's timeout.",
+      "options": {
+        "kullanici": "User to unmute",
+        "sebep": "Unmute reason"
+      },
+      "actionName": "Mute Removed",
+      "notFound": "❌ This user was not found in the server.",
+      "notMuted": "ℹ️ This user is not muted.",
+      "success": "✅ Action completed."
+    },
+    "clear": {
+      "description": "Bulk delete the last X messages in this channel.",
+      "options": {
+        "miktar": "Number of messages to delete (1-100)"
+      },
+      "success": "🧹 Deleted {count} messages.",
+      "noneDeleted": "⚠️ No messages could be deleted (messages older than 14 days cannot be bulk deleted)."
+    },
+    "ayarla": {
+      "description": "Configure bot settings. (Staff)",
+      "welcomeChannel": {
+        "subcommandDescription": "Set the channel for welcome messages.",
+        "channelOptionDescription": "Channel for welcome messages",
+        "success": "✅ Welcome messages will now be sent to {channel}."
+      },
+      "leaveChannel": {
+        "subcommandDescription": "Set the channel for leave messages.",
+        "channelOptionDescription": "Channel for leave messages",
+        "success": "✅ Leave messages will now be sent to {channel}."
+      }
+    },
+    "kurallar": {
+      "description": "Show the server rules."
+    },
+    "renkMenusu": {
+      "description": "Send the color selection menu to this channel. (Staff)",
+      "missingRoleIds": "⚠️ Some role IDs in `src/config/colorRoles.js` are still placeholders (e.g. `RED_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "success": "✅ Color menu sent and role colors synced."
+    },
+    "cinsiyetMenusu": {
+      "description": "Send the gender selection menu to this channel. (Staff)",
+      "missingRoleIds": "⚠️ Some role IDs in `src/config/genderRoles.js` are still placeholders (e.g. `MALE_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "success": "✅ Gender menu sent."
+    },
+    "rolMenusu": {
+      "description": "Send the role selection menu to this channel. (Staff)",
+      "missingRoleIds": "⚠️ Some role IDs in `src/config/reactionRoles.js` are still placeholders (e.g. `GAME_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "success": "✅ Role menu sent."
+    },
+    "userinfo": {
+      "description": "Show information about a user.",
+      "options": {
+        "kullanici": "User to show info for (defaults to yourself)"
+      },
+      "embedTitle": "👤 User Info: {tag}",
+      "idField": "ID",
+      "accountCreatedField": "Account Created",
+      "joinedField": "Joined Server",
+      "rolesField": "Roles ({count})",
+      "noRoles": "No roles"
+    },
+    "serverinfo": {
+      "description": "Show information about the server.",
+      "embedTitle": "🏰 Server Info: {name}",
+      "idField": "ID",
+      "ownerField": "Owner",
+      "createdField": "Created",
+      "memberCountField": "Member Count",
+      "roleCountField": "Role Count",
+      "channelCountField": "Channel Count",
+      "boostField": "Server Level",
+      "boostValue": "Level {tier} ({count} boosts)"
+    },
+    "avatar": {
+      "description": "Show a user's avatar in full size.",
+      "options": {
+        "kullanici": "User whose avatar to show (defaults to yourself)"
+      },
+      "embedTitle": "🖼️ {tag}'s Avatar"
+    },
+    "yardim": {
+      "description": "List all commands by category.",
+      "embedTitle": "📖 Commands",
+      "embedDescription": "All bot commands are listed below.",
+      "categoryNames": {
+        "admin": "🔨 Moderation",
+        "genel": "⚙️ General",
+        "ses": "🎧 Voice"
+      }
+    },
+    "join": {
+      "description": "Invite the bot to your current voice channel.",
+      "notInVoice": "❌ You need to join a voice channel first.",
+      "cannotJoin": "❌ I can't join this voice channel. Check my Connect permission.",
+      "success": "🔊 Joined voice channel {channel}!"
+    },
+    "leave": {
+      "description": "Disconnect the bot from its voice channel.",
+      "notConnected": "ℹ️ I'm not in a voice channel right now.",
+      "success": "👋 Left the voice channel."
+    }
+  }
+}

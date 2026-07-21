@@ -1,0 +1,212 @@
+{
+  "embeds": {
+    "welcome": {
+      "title": "👋 Hoş geldin!",
+      "description": "{member} sunucumuza katıldı! Aramıza hoş geldin, iyi eğlenceler diliyoruz.",
+      "memberCountField": "Üye Sayısı"
+    },
+    "leave": {
+      "title": "👋 Güle güle",
+      "description": "**{userTag}** sunucumuzdan ayrıldı.",
+      "memberCountField": "Üye Sayısı"
+    },
+    "colorMenu": {
+      "title": "🎨 Renk Seçimi",
+      "description": "Aşağıdaki menüden bir renk seçerek isim renginizi değiştirebilirsiniz.\nFarklı bir renk seçerseniz önceki renk otomatik değişir, seçimini kaldırmak için menüdeki \"Kaldır\" seçeneğini kullan."
+    },
+    "genderMenu": {
+      "title": "🚻 Cinsiyet Seçimi",
+      "description": "Aşağıdaki menüden cinsiyet rolünü seçebilirsin.\nFarklı bir seçim yaparsan öncekinin yerine geçer, seçimini kaldırmak için menüdeki \"Kaldır\" seçeneğini kullan."
+    },
+    "roleMenu": {
+      "title": "🏷️ Rol Seçimi",
+      "description": "İlgi alanlarına göre bildirim almak istediğin rolleri aşağıdaki butonlardan seçebilirsin.\nBirden fazla rol seçebilir, tekrar tıklayarak kaldırabilirsin."
+    },
+    "moderation": {
+      "titleTemplate": "🔨 {action}",
+      "userField": "Kullanıcı",
+      "moderatorField": "Yetkili",
+      "reasonField": "Sebep",
+      "noReason": "Sebep belirtilmedi.",
+      "durationField": "Süre"
+    }
+  },
+  "selectMenus": {
+    "removeOption": {
+      "label": "Kaldır",
+      "emoji": "❌",
+      "description": "Mevcut seçimini kaldırır."
+    },
+    "colorPlaceholder": "🎨 Renk Rolünü Seç",
+    "genderPlaceholder": "🚻 Cinsiyet Rolünü Seç"
+  },
+  "interactions": {
+    "genericCommandError": "Komut çalıştırılırken bir hata oluştu.",
+    "genericComponentError": "Bu işlem gerçekleştirilemedi. Botun rolünün, verilmek istenen rolden üst sıralarda olduğunu ve rol ID'lerinin config dosyalarında doğru girildiğini kontrol edin.",
+    "exclusiveRoleRemoved": "{label} seçimin kaldırıldı.",
+    "exclusiveRoleSet": "{label} başarıyla ayarlandı!",
+    "reactionRoleRemoved": "🏷️ Rol kaldırıldı.",
+    "reactionRoleAdded": "🏷️ Rol eklendi!",
+    "colorRoleLabel": "🎨 Renk rolün",
+    "genderRoleLabel": "🚻 Cinsiyet rolün"
+  },
+  "startup": {
+    "readyTitle": "Bot Hazır!",
+    "guildCount": "Sunucu Sayısı:",
+    "totalMembers": "Toplam Üye:",
+    "guildList": "Sunucular:",
+    "guildMemberCount": "üye: {count}",
+    "loadedCommands": "Yüklenen Komutlar ({count}):",
+    "readyMessage": "Bot komutlara ve etkileşimlere hazır."
+  },
+  "commands": {
+    "ban": {
+      "description": "Bir kullanıcıyı sunucudan yasaklar.",
+      "options": {
+        "kullanici": "Yasaklanacak kullanıcı",
+        "sebep": "Yasaklama sebebi",
+        "mesajSilGun": "Kullanıcının son X günlük mesajlarını sil (0-7)"
+      },
+      "actionName": "Kullanıcı Yasaklandı",
+      "notBannable": "❌ Bu kullanıcıyı yasaklayamıyorum. Rol hiyerarşisini kontrol edin.",
+      "success": "✅ İşlem tamamlandı."
+    },
+    "unban": {
+      "description": "Bir kullanıcının yasağını kaldırır.",
+      "options": {
+        "kullaniciId": "Yasağı kaldırılacak kullanıcının ID'si",
+        "sebep": "Yasak kaldırma sebebi"
+      },
+      "actionName": "Yasak Kaldırıldı",
+      "notFound": "❌ Bu ID'ye sahip yasaklı bir kullanıcı bulunamadı.",
+      "success": "✅ İşlem tamamlandı."
+    },
+    "kick": {
+      "description": "Bir kullanıcıyı sunucudan atar.",
+      "options": {
+        "kullanici": "Atılacak kullanıcı",
+        "sebep": "Atma sebebi"
+      },
+      "actionName": "Kullanıcı Atıldı",
+      "notFound": "❌ Bu kullanıcı sunucuda bulunamadı.",
+      "notKickable": "❌ Bu kullanıcıyı atamıyorum. Rol hiyerarşisini kontrol edin.",
+      "success": "✅ İşlem tamamlandı."
+    },
+    "mute": {
+      "description": "Bir kullanıcıyı belirtilen süre boyunca susturur (timeout).",
+      "options": {
+        "kullanici": "Susturulacak kullanıcı",
+        "sure": "Susturma süresi (örn. 10m, 2h, 1d). Varsayılan: 10m",
+        "sebep": "Susturma sebebi"
+      },
+      "actionName": "Kullanıcı Susturuldu",
+      "invalidDuration": "❌ Geçersiz süre formatı. Örnek: `10m`, `2h`, `1d`, `1w`.",
+      "durationTooLong": "❌ Susturma süresi en fazla 28 gün olabilir.",
+      "notFound": "❌ Bu kullanıcı sunucuda bulunamadı.",
+      "notModeratable": "❌ Bu kullanıcıyı susturamiyorum. Rol hiyerarşisini kontrol edin.",
+      "success": "✅ İşlem tamamlandı."
+    },
+    "unmute": {
+      "description": "Bir kullanıcının susturmasını kaldırır.",
+      "options": {
+        "kullanici": "Susturması kaldırılacak kullanıcı",
+        "sebep": "Susturma kaldırma sebebi"
+      },
+      "actionName": "Susturma Kaldırıldı",
+      "notFound": "❌ Bu kullanıcı sunucuda bulunamadı.",
+      "notMuted": "ℹ️ Bu kullanıcı zaten susturulmuş değil.",
+      "success": "✅ İşlem tamamlandı."
+    },
+    "clear": {
+      "description": "Bu kanaldaki son X mesajı topluca siler.",
+      "options": {
+        "miktar": "Silinecek mesaj sayısı (1-100)"
+      },
+      "success": "🧹 {count} mesaj silindi.",
+      "noneDeleted": "⚠️ Silinecek mesaj bulunamadı (14 günden eski mesajlar toplu silinemez)."
+    },
+    "ayarla": {
+      "description": "Bot ayarlarını yapılandırır. (Yetkili)",
+      "welcomeChannel": {
+        "subcommandDescription": "Hoş geldin mesajlarının gönderileceği kanalı ayarlar.",
+        "channelOptionDescription": "Hoş geldin mesajlarının gönderileceği kanal",
+        "success": "✅ Hoş geldin mesajları artık {channel} kanalına gönderilecek."
+      },
+      "leaveChannel": {
+        "subcommandDescription": "Ayrılma mesajlarının gönderileceği kanalı ayarlar.",
+        "channelOptionDescription": "Ayrılma mesajlarının gönderileceği kanal",
+        "success": "✅ Ayrılma mesajları artık {channel} kanalına gönderilecek."
+      }
+    },
+    "kurallar": {
+      "description": "Sunucu kurallarını gösterir."
+    },
+    "renkMenusu": {
+      "description": "Renk seçim menüsünü bu kanala gönderir. (Yetkili)",
+      "missingRoleIds": "⚠️ `src/config/colorRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `KIRMIZI_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "success": "✅ Renk menüsü gönderildi ve rol renkleri senkronize edildi."
+    },
+    "cinsiyetMenusu": {
+      "description": "Cinsiyet seçim menüsünü bu kanala gönderir. (Yetkili)",
+      "missingRoleIds": "⚠️ `src/config/genderRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `ERKEK_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "success": "✅ Cinsiyet menüsü gönderildi."
+    },
+    "rolMenusu": {
+      "description": "Rol seçim menüsünü bu kanala gönderir. (Yetkili)",
+      "missingRoleIds": "⚠️ `src/config/reactionRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `OYUN_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "success": "✅ Rol menüsü gönderildi."
+    },
+    "userinfo": {
+      "description": "Bir kullanıcının bilgilerini gösterir.",
+      "options": {
+        "kullanici": "Bilgileri gösterilecek kullanıcı (boş bırakılırsa kendiniz)"
+      },
+      "embedTitle": "👤 Kullanıcı Bilgisi: {tag}",
+      "idField": "ID",
+      "accountCreatedField": "Hesap Oluşturma Tarihi",
+      "joinedField": "Sunucuya Katılma Tarihi",
+      "rolesField": "Roller ({count})",
+      "noRoles": "Rol yok"
+    },
+    "serverinfo": {
+      "description": "Sunucu hakkında bilgi gösterir.",
+      "embedTitle": "🏰 Sunucu Bilgisi: {name}",
+      "idField": "ID",
+      "ownerField": "Sahibi",
+      "createdField": "Oluşturulma Tarihi",
+      "memberCountField": "Üye Sayısı",
+      "roleCountField": "Rol Sayısı",
+      "channelCountField": "Kanal Sayısı",
+      "boostField": "Sunucu Seviyesi",
+      "boostValue": "Seviye {tier} ({count} boost)"
+    },
+    "avatar": {
+      "description": "Bir kullanıcının profil fotoğrafını büyük boyutta gösterir.",
+      "options": {
+        "kullanici": "Profil fotoğrafı gösterilecek kullanıcı (boş bırakılırsa kendiniz)"
+      },
+      "embedTitle": "🖼️ {tag} Profil Fotoğrafı"
+    },
+    "yardim": {
+      "description": "Tüm komutları kategorilere ayırarak listeler.",
+      "embedTitle": "📖 Komutlar",
+      "embedDescription": "Aşağıda botun tüm komutları listelenmiştir.",
+      "categoryNames": {
+        "admin": "🔨 Moderasyon",
+        "genel": "⚙️ Genel",
+        "ses": "🎧 Ses"
+      }
+    },
+    "join": {
+      "description": "Botu bulunduğunuz sesli kanala davet eder.",
+      "notInVoice": "❌ Önce bir sesli kanala katılman gerekiyor.",
+      "cannotJoin": "❌ Bu sesli kanala katılamıyorum. Yetkilerimi (Bağlan) kontrol edin.",
+      "success": "🔊 {channel} sesli kanalına katıldım!"
+    },
+    "leave": {
+      "description": "Botu bulunduğu sesli kanaldan çıkarır.",
+      "notConnected": "ℹ️ Şu anda herhangi bir sesli kanalda değilim.",
+      "success": "👋 Sesli kanaldan ayrıldım."
+    }
+  }
+}
