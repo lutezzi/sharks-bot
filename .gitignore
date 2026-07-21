@@ -4,3 +4,4 @@ data/settings.json
 npm-debug.log*
 *.log
 .DS_Store
+deploy-to-server.ps1
