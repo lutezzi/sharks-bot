@@ -1,5 +1,5 @@
-const { SlashCommandBuilder, EmbedBuilder } = require("discord.js");
-const { COLORS } = require("../../utils/embeds");
+const { SlashCommandBuilder } = require("discord.js");
+const { avatarEmbed } = require("../../utils/embeds");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -12,13 +12,6 @@ module.exports = {
 
   async execute(interaction) {
     const targetUser = interaction.options.getUser("user") ?? interaction.user;
-
-    const embed = new EmbedBuilder()
-      .setColor(COLORS.primary)
-      .setTitle(t("commands.avatar.embedTitle", { tag: targetUser.tag }))
-      .setImage(targetUser.displayAvatarURL({ size: 1024 }))
-      .setTimestamp();
-
-    await interaction.reply({ embeds: [embed] });
+    await interaction.reply({ embeds: [avatarEmbed(targetUser)] });
   },
 };

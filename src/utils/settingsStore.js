@@ -39,4 +39,60 @@ function setGuildSetting(guildId, key, value) {
   return all[guildId];
 }
 
-module.exports = { getGuildSettings, setGuildSetting };
+function getGuildArraySetting(guildId, key) {
+  const value = getGuildSettings(guildId)[key];
+  return Array.isArray(value) ? value : [];
+}
+
+function setGuildArraySetting(guildId, key, value) {
+  return setGuildSetting(guildId, key, value);
+}
+
+function addGuildArrayEntry(guildId, key, entry, maxEntries) {
+  const list = getGuildArraySetting(guildId, key);
+  if (list.some((item) => item.roleId === entry.roleId)) {
+    return { ok: false, reason: "duplicate" };
+  }
+  if (list.length >= maxEntries) {
+    return { ok: false, reason: "max", max: maxEntries };
+  }
+  const next = [...list, entry];
+  setGuildArraySetting(guildId, key, next);
+  return { ok: true, list: next };
+}
+
+function removeGuildArrayEntry(guildId, key, roleId) {
+  const list = getGuildArraySetting(guildId, key);
+  const next = list.filter((item) => item.roleId !== roleId);
+  if (next.length === list.length) {
+    return { ok: false, reason: "notFound" };
+  }
+  setGuildArraySetting(guildId, key, next);
+  return { ok: true, list: next };
+}
+
+const USERS_KEY = "_users";
+
+function getUserSettings(userId) {
+  const all = readAll();
+  return all[USERS_KEY]?.[userId] ?? {};
+}
+
+function setUserSetting(userId, key, value) {
+  const all = readAll();
+  if (!all[USERS_KEY]) all[USERS_KEY] = {};
+  all[USERS_KEY][userId] = { ...(all[USERS_KEY][userId] ?? {}), [key]: value };
+  writeAll(all);
+  return all[USERS_KEY][userId];
+}
+
+module.exports = {
+  getGuildSettings,
+  setGuildSetting,
+  getGuildArraySetting,
+  setGuildArraySetting,
+  addGuildArrayEntry,
+  removeGuildArrayEntry,
+  getUserSettings,
+  setUserSetting,
+};

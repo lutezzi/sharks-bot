@@ -5,21 +5,34 @@ Slash komutlarina sahip, genisletilebilir bir Discord moderasyon botu.
 
 ## ✨ Ozellikler
 
-- 👋 Kullanici katilinca **hosgeldin mesaji**
-- 👋 Kullanici ayrilinca **ayrilma mesaji**
-- 📜 `/kurallar` komutu ile sunucu kurallarini gosterme
-- 🎨 `/renk-menusu` — Acilir menuden (dropdown) renk rolu secme (renkler birbirini dislar)
-- 🚻 `/cinsiyet-menusu` — Acilir menuden (dropdown) cinsiyet rolu secme (secenekler birbirini dislar)
-- 🏷️ `/rol-menusu` — Butona tiklayarak ilgi alani/bildirim rolu secme (birden fazla secilebilir)
-- 🔨 Admin komutlari: `/ban`, `/kick`, `/mute`, `/unban`, `/unmute`, `/clear`
-- 👤 `/userinfo`, 🏰 `/serverinfo`, 🖼️ `/avatar` ile kullanici/sunucu bilgi komutlari
-- 📖 `/yardim` ile tum komutlari kategorize eden bir liste
-- 🔊 `/join` / `/leave` ile botu bulundugunuz sesli kanala davet etme/cikartma
-- ⚙️ `/ayarla` ile hosgeldin/ayrilma kanallarini kolayca yapilandirma
-- 🌐 Tum metinler `src/locales/tr.json` dosyasinda toplanir (kolay duzenleme ve dil ekleme)
-- 🎨 Genel komutlarin embed renkleri, sunucunun pastel temasiyla uyumlu **soft** tonlarda
-- 💤 Bot durumu "idle" ve `src/config/activities.js` icindeki yazilar 10 saniyede bir sirayla degisir
-- 🖥️ Bot her acildiginda terminalde; sunucu sayisi/isimleri ve yuklenen komutlarin ozet bir gorunumu
+**Topluluk & karşılama**
+- 👋 Özel **sharks** embed’leriyle hoş geldin / görüşürüz mesajları
+- ⚙️ `/setup` ile sunucu bazlı karşılama kanalları, kurallar ve rol menüleri — kod düzenlemeden
+
+**Rol menüleri**
+- 🎨 `/color-menu` — dropdown ile isim rengi (tek seçim, hex senkron)
+- 🚻 `/gender-menu` — dropdown ile cinsiyet rolü (tek seçim)
+- 🏷️ `/role-menu` — butonlarla bildirim / ilgi alanı rolleri (çoklu seçim)
+
+**Moderasyon**
+- 🔨 `/ban`, `/kick`, `/mute`, `/unban`, `/unmute`, `/clear`
+- Kanalda imza **moderasyon embed’i**; komutu kullanan moderatöre gizli onay
+
+**Bilgi & kurallar**
+- 📜 `/rules` — sunucuya özel kurallar (`/setup rules` ile düzenlenir)
+- 👤 `/userinfo` · 🏰 `/serverinfo` · 🖼️ `/avatar`
+- 📖 `/help` — kategorilere ayrılmış komut rehberi
+
+**Ses & lofi**
+- 🔊 `/join` / `/leave` — sesli kanala gir / çık
+- 🎧 `/lofi` — bulunduğun kanalda soft-lofi radyo
+- 🎚️ `/music` — durdur, ses seviyesi, şu an çalan
+
+**Deneyim**
+- 🦈 Tüm yanıtlarda özgün embed dili: kicker, divider, pastel palet, `𝘴𝘩𝘢𝘳𝘬𝘴` imzası
+- 🌐 `/language tr` veya `/language en` — kullanıcı bazlı dil tercihi (Türkçe / English)
+- 💤 Durum çubuğunda dönen aktiviteler (`activities.js`)
+- 🖥️ Açılışta terminal banner’ı — sunucu ve komut özeti
 
 ## 📄 Lisans
 

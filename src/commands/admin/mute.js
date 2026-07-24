@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
-const { moderationEmbed } = require("../../utils/embeds");
+const { moderationEmbed, fieldName } = require("../../utils/embeds");
+const { replyError, replySuccess } = require("../../utils/embedReplies");
 const { parseDuration } = require("../../utils/duration");
 const { t } = require("../../utils/i18n");
 
@@ -30,24 +31,24 @@ module.exports = {
     const duration = parseDuration(durationInput);
 
     if (!duration) {
-      await interaction.editReply({ content: t("commands.mute.invalidDuration") });
+      await replyError(interaction, t("commands.mute.invalidDuration"), { edit: true });
       return;
     }
 
     if (duration.ms > MAX_TIMEOUT_MS) {
-      await interaction.editReply({ content: t("commands.mute.durationTooLong") });
+      await replyError(interaction, t("commands.mute.durationTooLong"), { edit: true });
       return;
     }
 
     const targetMember = await interaction.guild.members.fetch(targetUser.id).catch(() => null);
 
     if (!targetMember) {
-      await interaction.editReply({ content: t("commands.mute.notFound") });
+      await replyError(interaction, t("commands.mute.notFound"), { edit: true });
       return;
     }
 
     if (!targetMember.moderatable) {
-      await interaction.editReply({ content: t("commands.mute.notModeratable") });
+      await replyError(interaction, t("commands.mute.notModeratable"), { edit: true });
       return;
     }
 
@@ -60,11 +61,11 @@ module.exports = {
           target: `${targetUser.tag} (${targetUser.id})`,
           moderator: interaction.user,
           reason,
-          extra: { name: t("embeds.moderation.durationField"), value: duration.label, inline: true },
+          extra: { name: fieldName(t("embeds.moderation.durationField")), value: duration.label, inline: true },
         }),
       ],
     });
 
-    await interaction.editReply({ content: t("commands.mute.success") });
+    await replySuccess(interaction, t("commands.mute.success"), { edit: true });
   },
 };

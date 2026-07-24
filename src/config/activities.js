@@ -9,7 +9,7 @@
 //   {guildCount}   -> Total number of guilds the bot is in
 //   {memberCount}  -> Approximate total member count across all guilds
 module.exports = [
-  { text: "/rules | /help", type: "Watching" },
+  { text: "/help", type: "Watching" },
   { text: "{guildCount} guilds, {memberCount} members.", type: "Watching" },
   { text: "made by lutezzi", type: "Watching" },
 ];

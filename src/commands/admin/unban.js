@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 const { moderationEmbed } = require("../../utils/embeds");
+const { replyError, replySuccess } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -27,7 +28,7 @@ module.exports = {
     const bannedUser = bans.get(userId)?.user;
 
     if (!bannedUser) {
-      await interaction.editReply({ content: t("commands.unban.notFound") });
+      await replyError(interaction, t("commands.unban.notFound"), { edit: true });
       return;
     }
 
@@ -44,6 +45,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.unban.success") });
+    await replySuccess(interaction, t("commands.unban.success"), { edit: true });
   },
 };

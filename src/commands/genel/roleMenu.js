@@ -1,7 +1,8 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
-const reactionRoles = require("../../config/reactionRoles");
+const { getReactionRoles } = require("../../utils/guildConfig");
 const { roleMenuEmbed } = require("../../utils/embeds");
 const { buildReactionRoleRows } = require("../../utils/buttonRows");
+const { replyRoles } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -13,10 +14,10 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-    const missingRoleIds = reactionRoles.filter((role) => role.roleId.endsWith("_ROL_ID"));
+    const reactionRoles = getReactionRoles(interaction.guild.id);
 
-    if (missingRoleIds.length > 0) {
-      await interaction.editReply({ content: t("commands.rolMenusu.missingRoleIds") });
+    if (reactionRoles.length === 0) {
+      await replyRoles(interaction, t("commands.rolMenusu.missingRoleIds"), "warning", { edit: true });
       return;
     }
 
@@ -25,6 +26,6 @@ module.exports = {
       components: buildReactionRoleRows(reactionRoles),
     });
 
-    await interaction.editReply({ content: t("commands.rolMenusu.success") });
+    await replyRoles(interaction, t("commands.rolMenusu.success"), "success", { edit: true });
   },
 };

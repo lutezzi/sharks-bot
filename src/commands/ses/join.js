@@ -1,5 +1,6 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 const { joinVoiceChannel } = require("@discordjs/voice");
+const { replyVoice, replyError } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -9,12 +10,12 @@ module.exports = {
     const voiceChannel = interaction.member.voice?.channel;
 
     if (!voiceChannel) {
-      await interaction.reply({ content: t("commands.join.notInVoice"), flags: MessageFlags.Ephemeral });
+      await replyError(interaction, t("commands.join.notInVoice"));
       return;
     }
 
     if (!voiceChannel.joinable) {
-      await interaction.reply({ content: t("commands.join.cannotJoin"), flags: MessageFlags.Ephemeral });
+      await replyError(interaction, t("commands.join.cannotJoin"));
       return;
     }
 
@@ -24,6 +25,8 @@ module.exports = {
       adapterCreator: voiceChannel.guild.voiceAdapterCreator,
     });
 
-    await interaction.reply({ content: t("commands.join.success", { channel: `${voiceChannel}` }) });
+    await replyVoice(interaction, t("commands.join.success", { channel: `${voiceChannel}` }), {
+      ephemeral: false,
+    });
   },
 };

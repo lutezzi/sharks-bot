@@ -1,7 +1,8 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
-const genderRoles = require("../../config/genderRoles");
+const { getGenderRoles } = require("../../utils/guildConfig");
 const { genderMenuEmbed } = require("../../utils/embeds");
 const { buildExclusiveSelectRow } = require("../../utils/selectMenus");
+const { replyRoles } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -13,10 +14,10 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-    const missingRoleIds = genderRoles.filter((role) => role.roleId.endsWith("_ROL_ID"));
+    const genderRoles = getGenderRoles(interaction.guild.id);
 
-    if (missingRoleIds.length > 0) {
-      await interaction.editReply({ content: t("commands.cinsiyetMenusu.missingRoleIds") });
+    if (genderRoles.length === 0) {
+      await replyRoles(interaction, t("commands.cinsiyetMenusu.missingRoleIds"), "warning", { edit: true });
       return;
     }
 
@@ -31,6 +32,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.cinsiyetMenusu.success") });
+    await replyRoles(interaction, t("commands.cinsiyetMenusu.success"), "success", { edit: true });
   },
 };

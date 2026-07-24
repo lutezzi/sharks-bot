@@ -1,6 +1,6 @@
 require("dotenv").config();
 require("./utils/network");
-const { REST, Routes } = require("discord.js");
+const { Client, GatewayIntentBits, REST, Routes } = require("discord.js");
 const { loadCommands } = require("./handlers/loadCommands");
 
 const { DISCORD_TOKEN, CLIENT_ID, GUILD_ID, DEPLOY_MODE } = process.env;
@@ -10,11 +10,24 @@ if (!DISCORD_TOKEN || !CLIENT_ID) {
   process.exit(1);
 }
 
-// Gercek bir client olusturmadan komut listesini toplamak icin sahte bir obje yeterli.
 const fakeClient = {};
 const commandsJSON = loadCommands(fakeClient);
-
 const rest = new REST().setToken(DISCORD_TOKEN);
+
+async function clearGuildCommands(guildIds) {
+  for (const guildId of guildIds) {
+    await rest.put(Routes.applicationGuildCommands(CLIENT_ID, guildId), { body: [] });
+    console.log(`Guild komutlari temizlendi: ${guildId}`);
+  }
+}
+
+async function getBotGuildIds() {
+  const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+  await client.login(DISCORD_TOKEN);
+  const guildIds = [...client.guilds.cache.keys()];
+  await client.destroy();
+  return guildIds;
+}
 
 (async () => {
   try {
@@ -33,8 +46,17 @@ const rest = new REST().setToken(DISCORD_TOKEN);
 
     await rest.put(route, { body: commandsJSON });
 
+    if (!useGuild) {
+      const guildIds = await getBotGuildIds();
+      if (guildIds.length > 0) {
+        console.log("Eski guild komutlari temizleniyor (orn. test /hey)...");
+        await clearGuildCommands(guildIds);
+      }
+    }
+
     console.log("Slash komutlari basariyla kaydedildi.");
   } catch (error) {
     console.error("Komutlar kaydedilirken hata olustu:", error);
+    process.exit(1);
   }
 })();

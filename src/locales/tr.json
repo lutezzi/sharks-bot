@@ -1,26 +1,51 @@
 {
   "embeds": {
+    "brand": {
+      "author": "🦈 sharks",
+      "footer": "𝘴𝘩𝘢𝘳𝘬𝘴"
+    },
+    "fieldPrefix": "▸",
+    "commandBullet": "◦",
+    "menuFooter": "Aşağıdaki menüyü kullan · sade ve hızlı",
+    "avatarHint": "Tam boy profil fotoğrafın aşağıda.",
+    "kickers": {
+      "success": "Tamam",
+      "error": "Dur",
+      "warning": "Dikkat",
+      "info": "Bilgi",
+      "setup": "Kurulum",
+      "moderation": "Moderasyon",
+      "roles": "Roller",
+      "voice": "Ses",
+      "music": "Lofi mod",
+      "welcome": "Yeni üye",
+      "leave": "Veda",
+      "rules": "Kurallar",
+      "profile": "Profil",
+      "server": "Sunucu",
+      "help": "Yardım"
+    },
     "welcome": {
-      "title": "👋 Hoş geldin!",
-      "description": "{member} sunucumuza katıldı! Aramıza hoş geldin, iyi eğlenceler diliyoruz.",
-      "memberCountField": "Üye Sayısı"
+      "title": "Hoş Geldin",
+      "description": "{member} sunucuya dalış yaptı — selam ver, renklerini seç!",
+      "memberCountField": "Güncel üye"
     },
     "leave": {
-      "title": "👋 Güle güle",
-      "description": "**{userTag}** sunucumuzdan ayrıldı.",
-      "memberCountField": "Üye Sayısı"
+      "title": "Görüşürüz",
+      "description": "**{userTag}** resifi terk etti. Yakında görüşmek üzere!",
+      "memberCountField": "Güncel üye"
     },
     "colorMenu": {
-      "title": "🎨 Renk Seçimi",
-      "description": "Aşağıdaki menüden bir renk seçerek isim renginizi değiştirebilirsiniz.\nFarklı bir renk seçerseniz önceki renk otomatik değişir, seçimini kaldırmak için menüdeki \"Kaldır\" seçeneğini kullan."
+      "title": "Renk Seçimi",
+      "description": "İsim rengin için menüden bir ton seç.\nYeni seçim eskisinin yerini alır · **Kaldır** hepsini temizler."
     },
     "genderMenu": {
-      "title": "🚻 Cinsiyet Seçimi",
-      "description": "Aşağıdaki menüden cinsiyet rolünü seçebilirsin.\nFarklı bir seçim yaparsan öncekinin yerine geçer, seçimini kaldırmak için menüdeki \"Kaldır\" seçeneğini kullan."
+      "title": "Cinsiyet Seçimi",
+      "description": "Menüden bir rol seç.\nTek aktif seçim · **Kaldır** ile temizle."
     },
     "roleMenu": {
-      "title": "🏷️ Rol Seçimi",
-      "description": "İlgi alanlarına göre bildirim almak istediğin rolleri aşağıdaki butonlardan seçebilirsin.\nBirden fazla rol seçebilir, tekrar tıklayarak kaldırabilirsin."
+      "title": "Rol Seçimi",
+      "description": "Bildirim rolleri için butonlara dokun.\nBirden fazla seçebilirsin · tekrar tıkla, rol gitsin."
     },
     "moderation": {
       "titleTemplate": "🔨 {action}",
@@ -42,7 +67,7 @@
   },
   "interactions": {
     "genericCommandError": "Komut çalıştırılırken bir hata oluştu.",
-    "genericComponentError": "Bu işlem gerçekleştirilemedi. Botun rolünün, verilmek istenen rolden üst sıralarda olduğunu ve rol ID'lerinin config dosyalarında doğru girildiğini kontrol edin.",
+    "genericComponentError": "Bu işlem gerçekleştirilemedi. Bot rolünün hedef rolün üstünde olduğundan ve rolün /setup ile yapılandırıldığından emin olun.",
     "exclusiveRoleRemoved": "{label} seçimin kaldırıldı.",
     "exclusiveRoleSet": "{label} başarıyla ayarlandı!",
     "reactionRoleRemoved": "🏷️ Rol kaldırıldı.",
@@ -126,7 +151,7 @@
       "noneDeleted": "⚠️ Silinecek mesaj bulunamadı (14 günden eski mesajlar toplu silinemez)."
     },
     "ayarla": {
-      "description": "Bot ayarlarını yapılandırır. (Yetkili)",
+      "description": "Bu sunucu için bot ayarlarını yapılandırır. (Yetkili)",
       "welcomeChannel": {
         "subcommandDescription": "Hoş geldin mesajlarının gönderileceği kanalı ayarlar.",
         "channelOptionDescription": "Hoş geldin mesajlarının gönderileceği kanal",
@@ -136,6 +161,111 @@
         "subcommandDescription": "Ayrılma mesajlarının gönderileceği kanalı ayarlar.",
         "channelOptionDescription": "Ayrılma mesajlarının gönderileceği kanal",
         "success": "✅ Ayrılma mesajları artık {channel} kanalına gönderilecek."
+      },
+      "arrayErrors": {
+        "duplicate": "⚠️ Bu rol zaten listede.",
+        "max": "⚠️ En fazla {max} rol ekleyebilirsiniz."
+      },
+      "roleErrors": {
+        "missing": "❌ Rol bulunamadı.",
+        "managed": "❌ Entegrasyon veya bot rolleri kullanılamaz.",
+        "hierarchy": "❌ Sunucu Ayarları → Roller bölümünde bot rolünü bu rolün üstüne taşıyın."
+      },
+      "colorMenu": {
+        "groupDescription": "Renk seçim menüsü için renk rollerini yapılandırır.",
+        "add": {
+          "subcommandDescription": "Menüye renk rolü ekler.",
+          "roleOptionDescription": "Eklenecek Discord rolü",
+          "labelOptionDescription": "Dropdown'da görünen etiket",
+          "hexOptionDescription": "Hex renk kodu (örn. #A8C69F)",
+          "emojiOptionDescription": "Seçeneğin yanında görünen emoji",
+          "invalidHex": "❌ Geçersiz hex rengi. `#RRGGBB` formatını kullanın.",
+          "success": "✅ {role} rolü {hex} rengiyle eklendi. Menüyü göndermek için `/color-menu` kullanın."
+        },
+        "remove": {
+          "subcommandDescription": "Renk menüsünden rol kaldırır.",
+          "roleOptionDescription": "Kaldırılacak rol",
+          "notFound": "⚠️ Bu rol renk menüsü listesinde yok.",
+          "success": "✅ {role} renk menüsünden kaldırıldı."
+        },
+        "list": {
+          "subcommandDescription": "Yapılandırılmış renk rollerini listeler.",
+          "success": "**Renk rolleri:**\n{list}"
+        }
+      },
+      "genderMenu": {
+        "groupDescription": "Cinsiyet seçim menüsü için rolleri yapılandırır.",
+        "add": {
+          "subcommandDescription": "Menüye cinsiyet rolü ekler.",
+          "roleOptionDescription": "Eklenecek Discord rolü",
+          "labelOptionDescription": "Dropdown'da görünen etiket",
+          "emojiOptionDescription": "Seçeneğin yanında görünen emoji",
+          "success": "✅ {role} eklendi. Menüyü göndermek için `/gender-menu` kullanın."
+        },
+        "remove": {
+          "subcommandDescription": "Cinsiyet menüsünden rol kaldırır.",
+          "roleOptionDescription": "Kaldırılacak rol",
+          "notFound": "⚠️ Bu rol cinsiyet menüsü listesinde yok.",
+          "success": "✅ {role} cinsiyet menüsünden kaldırıldı."
+        },
+        "list": {
+          "subcommandDescription": "Yapılandırılmış cinsiyet rollerini listeler.",
+          "success": "**Cinsiyet rolleri:**\n{list}"
+        }
+      },
+      "roleMenu": {
+        "groupDescription": "Buton menüsü için ilgi alanı/bildirim rollerini yapılandırır.",
+        "add": {
+          "subcommandDescription": "Buton menüsüne rol ekler.",
+          "roleOptionDescription": "Eklenecek Discord rolü",
+          "labelOptionDescription": "Buton etiketi",
+          "emojiOptionDescription": "Butondaki emoji",
+          "styleOptionDescription": "Buton renk stili",
+          "invalidStyle": "❌ Geçersiz buton stili.",
+          "success": "✅ {role} eklendi. Menüyü göndermek için `/role-menu` kullanın."
+        },
+        "remove": {
+          "subcommandDescription": "Buton menüsünden rol kaldırır.",
+          "roleOptionDescription": "Kaldırılacak rol",
+          "notFound": "⚠️ Bu rol buton menüsü listesinde yok.",
+          "success": "✅ {role} buton menüsünden kaldırıldı."
+        },
+        "list": {
+          "subcommandDescription": "Yapılandırılmış buton rollerini listeler.",
+          "success": "**Rol menüsü rolleri:**\n{list}"
+        }
+      },
+      "rules": {
+        "groupDescription": "/rules komutunun göstereceği kuralları yapılandırır.",
+        "setTitle": {
+          "subcommandDescription": "Kurallar embed başlığını ayarlar.",
+          "titleOptionDescription": "Yeni başlık",
+          "success": "✅ Kurallar başlığı ayarlandı: **{title}**"
+        },
+        "setDescription": {
+          "subcommandDescription": "Kurallar embed açıklamasını ayarlar.",
+          "descriptionOptionDescription": "Yeni açıklama",
+          "success": "✅ Kurallar açıklaması güncellendi."
+        },
+        "add": {
+          "subcommandDescription": "Yeni kural satırı ekler.",
+          "ruleOptionDescription": "Kural metni",
+          "success": "✅ #{index} numaralı kural eklendi."
+        },
+        "remove": {
+          "subcommandDescription": "Numarasına göre kural kaldırır.",
+          "indexOptionDescription": "Kural numarası (/setup rules list)",
+          "notFound": "⚠️ Bu numarada kural yok.",
+          "success": "✅ #{index} numaralı kural kaldırıldı."
+        },
+        "list": {
+          "subcommandDescription": "Yapılandırılmış kuralları gösterir.",
+          "success": "**{title}**\n{description}\n\n{rules}"
+        },
+        "reset": {
+          "subcommandDescription": "Kuralları varsayılan şablona sıfırlar.",
+          "success": "✅ Kurallar varsayılana sıfırlandı."
+        }
       }
     },
     "kurallar": {
@@ -143,17 +273,17 @@
     },
     "renkMenusu": {
       "description": "Renk seçim menüsünü bu kanala gönderir. (Yetkili)",
-      "missingRoleIds": "⚠️ `src/config/colorRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `KIRMIZI_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "missingRoleIds": "⚠️ Henüz renk rolü eklenmemiş. Önce `/setup color-menu add` ile rol ekleyin.",
       "success": "✅ Renk menüsü gönderildi ve rol renkleri senkronize edildi."
     },
     "cinsiyetMenusu": {
       "description": "Cinsiyet seçim menüsünü bu kanala gönderir. (Yetkili)",
-      "missingRoleIds": "⚠️ `src/config/genderRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `ERKEK_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "missingRoleIds": "⚠️ Henüz cinsiyet rolü eklenmemiş. Önce `/setup gender-menu add` ile rol ekleyin.",
       "success": "✅ Cinsiyet menüsü gönderildi."
     },
     "rolMenusu": {
       "description": "Rol seçim menüsünü bu kanala gönderir. (Yetkili)",
-      "missingRoleIds": "⚠️ `src/config/reactionRoles.js` dosyasındaki bazı rol ID'leri hala varsayılan (örn. `OYUN_ROL_ID`). Menüyü göndermeden önce gerçek rol ID'lerini girin.",
+      "missingRoleIds": "⚠️ Henüz rol eklenmemiş. Önce `/setup role-menu add` ile rol ekleyin.",
       "success": "✅ Rol menüsü gönderildi."
     },
     "userinfo": {
@@ -187,6 +317,18 @@
       },
       "embedTitle": "🖼️ {tag} Profil Fotoğrafı"
     },
+    "language": {
+      "description": "Bot dil tercihini ayarlar.",
+      "options": {
+        "code": "Dil kodu"
+      },
+      "names": {
+        "tr": "Türkçe",
+        "en": "English"
+      },
+      "success": "Dil **{language}** olarak ayarlandı. Bundan sonraki bot mesajların bu dilde olacak.",
+      "invalid": "Bu dil desteklenmiyor."
+    },
     "yardim": {
       "description": "Tüm komutları kategorilere ayırarak listeler.",
       "embedTitle": "📖 Komutlar",
@@ -207,6 +349,31 @@
       "description": "Botu bulunduğu sesli kanaldan çıkarır.",
       "notConnected": "ℹ️ Şu anda herhangi bir sesli kanalda değilim.",
       "success": "👋 Sesli kanaldan ayrıldım."
+    },
+    "lofi": {
+      "description": "Bulunduğunuz sesli kanalda soft-lofi müzik çalar.",
+      "notInVoice": "❌ Önce bir sesli kanala katılman gerekiyor.",
+      "cannotJoin": "❌ Bu sesli kanala katılamıyorum. Bağlan yetkimi kontrol edin.",
+      "success": "🎧 {channel} kanalında soft-lofi çalıyor. Durdurmak için `/music stop` veya `/leave` kullanın.",
+      "playbackError": "❌ Lofi çalınamadı. Biraz sonra tekrar deneyin."
+    },
+    "music": {
+      "description": "Müzik çalmayı kontrol eder.",
+      "stop": {
+        "subcommandDescription": "Müziği durdurur ve ses kanalından ayrılır.",
+        "success": "⏹️ Müzik durduruldu."
+      },
+      "volume": {
+        "subcommandDescription": "Çalma ses seviyesini ayarlar (1–100).",
+        "levelOptionDescription": "Ses seviyesi",
+        "notPlaying": "ℹ️ Şu anda çalan bir müzik yok.",
+        "success": "🔊 Ses seviyesi %{level} olarak ayarlandı."
+      },
+      "nowPlaying": {
+        "subcommandDescription": "Lofi müziğin çalıp çalmadığını kontrol eder.",
+        "playing": "🎧 Bir ses kanalında soft-lofi çalıyor.",
+        "notPlaying": "ℹ️ Şu anda çalan müzik yok."
+      }
     }
   }
 }

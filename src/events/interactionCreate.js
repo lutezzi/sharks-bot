@@ -1,8 +1,8 @@
 const { MessageFlags } = require("discord.js");
-const colorRoles = require("../config/colorRoles");
-const genderRoles = require("../config/genderRoles");
 const { REMOVE_VALUE } = require("../utils/selectMenus");
-const { t } = require("../utils/i18n");
+const { getColorRoles, getGenderRoles } = require("../utils/guildConfig");
+const { replyError, replyRoles } = require("../utils/embedReplies");
+const { t, runWithUserLocale } = require("../utils/i18n");
 
 async function handleSlashCommand(interaction) {
   const command = interaction.client.commands.get(interaction.commandName);
@@ -17,22 +17,11 @@ async function handleSlashCommand(interaction) {
   } catch (error) {
     console.error(`"${interaction.commandName}" komutunda hata:`, error);
 
-    const errorMessage = { content: t("interactions.genericCommandError"), flags: MessageFlags.Ephemeral };
-
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp(errorMessage).catch(() => {});
-    } else {
-      await interaction.reply(errorMessage).catch(() => {});
-    }
+    const options = { ephemeral: true, edit: interaction.deferred || interaction.replied };
+    await replyError(interaction, t("interactions.genericCommandError"), options).catch(() => {});
   }
 }
 
-/**
- * Tek secimlik (mutually exclusive) rol dropdown'lari icin ortak mantik.
- * Kullanici listeden bir secenek sectiginde, ayni listedeki diger tum
- * roller kaldirilir ve sadece secilen rol eklenir. "Kaldir" secilirse
- * listedeki tum roller kullanicidan sokulur.
- */
 async function handleExclusiveRoleSelect(interaction, roleList, labelKey) {
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
@@ -47,18 +36,14 @@ async function handleExclusiveRoleSelect(interaction, roleList, labelKey) {
   }
 
   if (selectedValue === REMOVE_VALUE) {
-    await interaction.editReply({ content: t("interactions.exclusiveRoleRemoved", { label }) });
+    await replyRoles(interaction, t("interactions.exclusiveRoleRemoved", { label }), "info", { edit: true });
     return;
   }
 
   await member.roles.add(selectedValue);
-  await interaction.editReply({ content: t("interactions.exclusiveRoleSet", { label }) });
+  await replyRoles(interaction, t("interactions.exclusiveRoleSet", { label }), "success", { edit: true });
 }
 
-/**
- * Rol menusu: roller birbirini DISLAMAZ, her buton kendi rolunu
- * acar/kapatir (toggle).
- */
 async function handleReactionRoleButton(interaction, roleId) {
   await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
@@ -67,10 +52,10 @@ async function handleReactionRoleButton(interaction, roleId) {
 
   if (alreadyHasRole) {
     await member.roles.remove(roleId);
-    await interaction.editReply({ content: t("interactions.reactionRoleRemoved") });
+    await replyRoles(interaction, t("interactions.reactionRoleRemoved"), "info", { edit: true });
   } else {
     await member.roles.add(roleId);
-    await interaction.editReply({ content: t("interactions.reactionRoleAdded") });
+    await replyRoles(interaction, t("interactions.reactionRoleAdded"), "success", { edit: true });
   }
 }
 
@@ -83,55 +68,39 @@ async function handleButton(interaction) {
     }
   } catch (error) {
     console.error("Buton etkilesiminde hata:", error);
-    const reply = { content: t("interactions.genericComponentError"), flags: MessageFlags.Ephemeral };
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp(reply).catch(() => {});
-    } else {
-      await interaction.reply(reply).catch(() => {});
-    }
+    const options = { ephemeral: true, edit: interaction.deferred || interaction.replied };
+    await replyError(interaction, t("interactions.genericComponentError"), options).catch(() => {});
   }
 }
 
 async function handleSelectMenu(interaction) {
   try {
     if (interaction.customId === "color-select") {
+      const colorRoles = getColorRoles(interaction.guild.id);
       await handleExclusiveRoleSelect(interaction, colorRoles, "interactions.colorRoleLabel");
     } else if (interaction.customId === "gender-select") {
+      const genderRoles = getGenderRoles(interaction.guild.id);
       await handleExclusiveRoleSelect(interaction, genderRoles, "interactions.genderRoleLabel");
     }
   } catch (error) {
     console.error("Menu etkilesiminde hata:", error);
-    const reply = { content: t("interactions.genericComponentError"), flags: MessageFlags.Ephemeral };
-    if (interaction.replied || interaction.deferred) {
-      await interaction.followUp(reply).catch(() => {});
-    } else {
-      await interaction.reply(reply).catch(() => {});
-    }
+    const options = { ephemeral: true, edit: interaction.deferred || interaction.replied };
+    await replyError(interaction, t("interactions.genericComponentError"), options).catch(() => {});
   }
 }
 
 module.exports = {
   name: "interactionCreate",
   async execute(interaction) {
-    // Tanı amacli: etkilesim Discord'da olusturuldugundan beri ne kadar
-    // sure gectigini ve o anki gateway (websocket) gecikmesini logla.
-    // Bu deger 2500ms'e yaklasiyor/asiyorsa sorun REST tarafinda degil,
-    // etkilesimin gateway uzerinden bize GEC ulasmasindadir (ag/ISS
-    // kaynakli gecikme) ve deferReply() ne kadar hizli calisirsa
-    // calissin "Unknown interaction" hatasini onleyemez.
-    const eventAge = Date.now() - interaction.createdTimestamp;
-    if (eventAge > 1000) {
-      console.warn(
-        `[tani] Etkilesim ${eventAge}ms gecikmeyle ulasti (gateway ping: ${interaction.client.ws.ping}ms).`
-      );
-    }
+    const userId = interaction.user?.id;
+    if (!userId) return;
 
     if (interaction.isChatInputCommand()) {
-      await handleSlashCommand(interaction);
+      await runWithUserLocale(userId, () => handleSlashCommand(interaction));
     } else if (interaction.isStringSelectMenu()) {
-      await handleSelectMenu(interaction);
+      await runWithUserLocale(userId, () => handleSelectMenu(interaction));
     } else if (interaction.isButton()) {
-      await handleButton(interaction);
+      await runWithUserLocale(userId, () => handleButton(interaction));
     }
   },
 };

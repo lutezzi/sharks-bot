@@ -4,7 +4,16 @@
   "description": "Slash komutlarina sahip, genisletilebilir bir Discord moderasyon botu.",
   "main": "src/index.js",
   "scripts": {
-    
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js",
+    "deploy": "node src/deploy-commands.js",
+    "pm2:start": "pm2 start ecosystem.config.js",
+    "pm2:stop": "pm2 stop sharks-bot",
+    "pm2:restart": "pm2 restart sharks-bot",
+    "pm2:logs": "node scripts/pm2-startup-log.js",
+    "pm2:logs:live": "node scripts/pm2-startup-log.js --live",
+    "pm2:logs:all": "pm2 logs sharks-bot --lines 50",
+    "pm2:logs:errors": "pm2 logs sharks-bot --err --raw --lines 30"
   },
   "keywords": [
     "discord",
@@ -19,6 +28,7 @@
     "discord.js": "^14.16.3",
     "dotenv": "^16.4.5",
     "libsodium-wrappers": "^0.8.4",
+    "opusscript": "^0.0.8",
     "undici": "^6.24.1"
   }
 }

@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 const { moderationEmbed } = require("../../utils/embeds");
+const { replyError, replySuccess } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -23,12 +24,12 @@ module.exports = {
     const targetMember = await interaction.guild.members.fetch(targetUser.id).catch(() => null);
 
     if (!targetMember) {
-      await interaction.editReply({ content: t("commands.unmute.notFound") });
+      await replyError(interaction, t("commands.unmute.notFound"), { edit: true });
       return;
     }
 
     if (!targetMember.communicationDisabledUntil) {
-      await interaction.editReply({ content: t("commands.unmute.notMuted") });
+      await replyError(interaction, t("commands.unmute.notMuted"), { edit: true });
       return;
     }
 
@@ -45,6 +46,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.unmute.success") });
+    await replySuccess(interaction, t("commands.unmute.success"), { edit: true });
   },
 };

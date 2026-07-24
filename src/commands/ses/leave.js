@@ -1,5 +1,7 @@
-const { SlashCommandBuilder, MessageFlags } = require("discord.js");
+const { SlashCommandBuilder } = require("discord.js");
 const { getVoiceConnection } = require("@discordjs/voice");
+const { stopMusic } = require("../../utils/musicPlayer");
+const { replyVoice, replyInfo } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -9,11 +11,11 @@ module.exports = {
     const connection = getVoiceConnection(interaction.guild.id);
 
     if (!connection) {
-      await interaction.reply({ content: t("commands.leave.notConnected"), flags: MessageFlags.Ephemeral });
+      await replyInfo(interaction, t("commands.leave.notConnected"));
       return;
     }
 
-    connection.destroy();
-    await interaction.reply({ content: t("commands.leave.success") });
+    stopMusic(interaction.guild.id);
+    await replyVoice(interaction, t("commands.leave.success"), { ephemeral: false });
   },
 };

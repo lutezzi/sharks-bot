@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
+const { replySuccess, replyWarning } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -20,17 +21,13 @@ module.exports = {
 
     const amount = interaction.options.getInteger("amount", true);
 
-    // Ikinci parametre (true) 14 gunden eski mesajlari otomatik olarak
-    // filtreler, aksi halde Discord API hata doner.
     const deletedMessages = await interaction.channel.bulkDelete(amount, true);
 
     if (deletedMessages.size === 0) {
-      await interaction.editReply({ content: t("commands.clear.noneDeleted") });
+      await replyWarning(interaction, t("commands.clear.noneDeleted"), { edit: true });
       return;
     }
 
-    await interaction.editReply({
-      content: t("commands.clear.success", { count: deletedMessages.size }),
-    });
+    await replySuccess(interaction, t("commands.clear.success", { count: deletedMessages.size }), { edit: true });
   },
 };

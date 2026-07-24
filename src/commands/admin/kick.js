@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 const { moderationEmbed } = require("../../utils/embeds");
+const { replyError, replySuccess } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -23,12 +24,12 @@ module.exports = {
     const targetMember = await interaction.guild.members.fetch(targetUser.id).catch(() => null);
 
     if (!targetMember) {
-      await interaction.editReply({ content: t("commands.kick.notFound") });
+      await replyError(interaction, t("commands.kick.notFound"), { edit: true });
       return;
     }
 
     if (!targetMember.kickable) {
-      await interaction.editReply({ content: t("commands.kick.notKickable") });
+      await replyError(interaction, t("commands.kick.notKickable"), { edit: true });
       return;
     }
 
@@ -45,6 +46,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.kick.success") });
+    await replySuccess(interaction, t("commands.kick.success"), { edit: true });
   },
 };

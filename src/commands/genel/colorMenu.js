@@ -1,8 +1,9 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
-const colorRoles = require("../../config/colorRoles");
+const { getColorRoles } = require("../../utils/guildConfig");
 const { colorMenuEmbed } = require("../../utils/embeds");
 const { buildExclusiveSelectRow } = require("../../utils/selectMenus");
 const { syncColorRoles } = require("../../utils/syncColorRoles");
+const { replyRoles } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -14,14 +15,14 @@ module.exports = {
   async execute(interaction) {
     await interaction.deferReply({ flags: MessageFlags.Ephemeral });
 
-    const missingRoleIds = colorRoles.filter((role) => role.roleId.endsWith("_ROL_ID"));
+    const colorRoles = getColorRoles(interaction.guild.id);
 
-    if (missingRoleIds.length > 0) {
-      await interaction.editReply({ content: t("commands.renkMenusu.missingRoleIds") });
+    if (colorRoles.length === 0) {
+      await replyRoles(interaction, t("commands.renkMenusu.missingRoleIds"), "warning", { edit: true });
       return;
     }
 
-    await syncColorRoles(interaction.guild).catch(() => {});
+    await syncColorRoles(interaction.guild, colorRoles).catch(() => {});
 
     await interaction.channel.send({
       embeds: [colorMenuEmbed()],
@@ -34,6 +35,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.renkMenusu.success") });
+    await replyRoles(interaction, t("commands.renkMenusu.success"), "success", { edit: true });
   },
 };

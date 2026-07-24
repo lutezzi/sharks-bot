@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionFlagsBits, MessageFlags } = require("discord.js");
 const { moderationEmbed } = require("../../utils/embeds");
+const { replyError, replySuccess } = require("../../utils/embedReplies");
 const { t } = require("../../utils/i18n");
 
 module.exports = {
@@ -36,7 +37,7 @@ module.exports = {
     const targetMember = await interaction.guild.members.fetch(targetUser.id).catch(() => null);
 
     if (targetMember && !targetMember.bannable) {
-      await interaction.editReply({ content: t("commands.ban.notBannable") });
+      await replyError(interaction, t("commands.ban.notBannable"), { edit: true });
       return;
     }
 
@@ -56,6 +57,6 @@ module.exports = {
       ],
     });
 
-    await interaction.editReply({ content: t("commands.ban.success") });
+    await replySuccess(interaction, t("commands.ban.success"), { edit: true });
   },
 };

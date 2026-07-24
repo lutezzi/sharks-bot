@@ -1,8 +1,10 @@
 const fs = require("node:fs");
 const path = require("node:path");
+const { AsyncLocalStorage } = require("node:async_hooks");
 
-const DEFAULT_LOCALE = "en";
+const DEFAULT_LOCALE = (process.env.LOCALE || "en").toLowerCase();
 const LOCALES_DIR = path.join(__dirname, "..", "locales");
+const localeStorage = new AsyncLocalStorage();
 
 function loadLocaleFile(code) {
   const filePath = path.join(LOCALES_DIR, `${code}.json`);
@@ -10,20 +12,25 @@ function loadLocaleFile(code) {
   return JSON.parse(fs.readFileSync(filePath, "utf8"));
 }
 
-const requestedLocale = (process.env.LOCALE || DEFAULT_LOCALE).toLowerCase();
-const strings = loadLocaleFile(requestedLocale) ?? loadLocaleFile(DEFAULT_LOCALE);
+function loadAllLocales() {
+  const locales = {};
 
-if (!strings) {
-  throw new Error(
-    `Locale dosyasi bulunamadi: src/locales/${requestedLocale}.json (varsayilan "${DEFAULT_LOCALE}" de bulunamadi).`
-  );
+  for (const file of fs.readdirSync(LOCALES_DIR)) {
+    if (!file.endsWith(".json")) continue;
+    const code = file.slice(0, -5).toLowerCase();
+    locales[code] = loadLocaleFile(code);
+  }
+
+  if (!locales[DEFAULT_LOCALE]) {
+    throw new Error(
+      `Locale dosyasi bulunamadi: src/locales/${DEFAULT_LOCALE}.json (varsayilan dil dosyasi zorunlu).`
+    );
+  }
+
+  return locales;
 }
 
-if (requestedLocale !== DEFAULT_LOCALE && !loadLocaleFile(requestedLocale)) {
-  console.warn(
-    `[i18n] "${requestedLocale}" locale dosyasi bulunamadi, "${DEFAULT_LOCALE}" kullaniliyor.`
-  );
-}
+const locales = loadAllLocales();
 
 function resolvePath(obj, keyPath) {
   return keyPath.split(".").reduce((value, key) => (value == null ? undefined : value[key]), obj);
@@ -34,22 +41,74 @@ function interpolate(template, vars) {
   return template.replace(/\{(\w+)\}/g, (match, key) => (key in vars ? String(vars[key]) : match));
 }
 
+function normalizeLocale(code) {
+  return typeof code === "string" ? code.toLowerCase() : "";
+}
+
+function isSupportedLocale(code) {
+  return Boolean(locales[normalizeLocale(code)]);
+}
+
+function getActiveLocale() {
+  return localeStorage.getStore()?.locale ?? DEFAULT_LOCALE;
+}
+
+function getStrings(locale) {
+  return locales[locale] ?? locales[DEFAULT_LOCALE];
+}
+
 /**
- * `src/locales/<LOCALE>.json` icinden nokta-yolu (orn. "commands.ban.success")
- * ile bir metin getirir ve `{degisken}` bicimindeki yer tutuculari doldurur.
- *
- * Yeni bir dil eklemek icin `src/locales/<kod>.json` dosyasini olusturup
- * .env icinde `LOCALE=<kod>` yazmaniz yeterlidir.
+ * `src/locales/<LOCALE>.json` icinden metin getirir.
+ * Etkilesim sirasinda kullanicinin dili AsyncLocalStorage uzerinden uygulanir.
  */
 function t(keyPath, vars) {
-  const value = resolvePath(strings, keyPath);
+  const locale = getActiveLocale();
+  const value = resolvePath(getStrings(locale), keyPath);
 
   if (value === undefined) {
-    console.warn(`[i18n] Eksik metin anahtari: "${keyPath}" (locale: ${requestedLocale})`);
+    console.warn(`[i18n] Eksik metin anahtari: "${keyPath}" (locale: ${locale})`);
     return keyPath;
   }
 
   return interpolate(value, vars);
 }
 
-module.exports = { t, locale: requestedLocale };
+function runWithLocale(locale, fn) {
+  const code = normalizeLocale(locale);
+  const resolved = isSupportedLocale(code) ? code : DEFAULT_LOCALE;
+  return localeStorage.run({ locale: resolved }, fn);
+}
+
+function getLocaleForUser(userId) {
+  const { getUserSettings } = require("./settingsStore");
+  const stored = normalizeLocale(getUserSettings(userId).locale);
+  return isSupportedLocale(stored) ? stored : DEFAULT_LOCALE;
+}
+
+function runWithUserLocale(userId, fn) {
+  return runWithLocale(getLocaleForUser(userId), fn);
+}
+
+function setUserLocale(userId, locale) {
+  const code = normalizeLocale(locale);
+  if (!isSupportedLocale(code)) return false;
+
+  const { setUserSetting } = require("./settingsStore");
+  setUserSetting(userId, "locale", code);
+  return true;
+}
+
+function getSupportedLocales() {
+  return Object.keys(locales);
+}
+
+module.exports = {
+  t,
+  locale: DEFAULT_LOCALE,
+  runWithLocale,
+  runWithUserLocale,
+  getLocaleForUser,
+  setUserLocale,
+  getSupportedLocales,
+  isSupportedLocale,
+};

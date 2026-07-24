@@ -1,15 +1,9 @@
-const colorRoles = require("../config/colorRoles");
-
 /**
- * config/colorRoles.js icindeki "hex" degerlerini, sunucudaki gercek
- * rollerin rengiyle karsilastirir ve farkli olanlari gunceller.
- *
- * Boylece renk kodlarini sadece config dosyasindan yonetebilirsiniz;
- * Discord'da role sag tiklayip elle renk secmenize gerek kalmaz.
+ * Sunucu ayarlarindaki renk rollerinin hex degerlerini Discord ile senkronize eder.
  */
-async function syncColorRoles(guild) {
+async function syncColorRoles(guild, colorRoles = []) {
   for (const colorRole of colorRoles) {
-    if (!colorRole.hex || colorRole.roleId.endsWith("_ROL_ID")) continue;
+    if (!colorRole.hex || !colorRole.roleId) continue;
 
     const role = guild.roles.cache.get(colorRole.roleId);
     if (!role) continue;
@@ -24,7 +18,7 @@ async function syncColorRoles(guild) {
       continue;
     }
 
-    await role.setColor(targetHex, "Renk kodu config/colorRoles.js ile senkronize edildi.").catch((error) => {
+    await role.setColor(targetHex, "Renk kodu /setup color-menu ile senkronize edildi.").catch((error) => {
       console.warn(`[renk-senkron] "${colorRole.label}" rolu guncellenemedi:`, error.message);
     });
   }

@@ -1,26 +1,51 @@
 {
   "embeds": {
+    "brand": {
+      "author": "🦈 sharks",
+      "footer": "𝘴𝘩𝘢𝘳𝘬𝘴"
+    },
+    "fieldPrefix": "▸",
+    "commandBullet": "◦",
+    "menuFooter": "Use the menu below · soft & simple",
+    "avatarHint": "Your full-size avatar is shown below.",
+    "kickers": {
+      "success": "Done",
+      "error": "Hold on",
+      "warning": "Heads up",
+      "info": "Note",
+      "setup": "Setup",
+      "moderation": "Moderation",
+      "roles": "Roles",
+      "voice": "Voice",
+      "music": "Lofi vibes",
+      "welcome": "New member",
+      "leave": "Farewell",
+      "rules": "Rules",
+      "profile": "Profile",
+      "server": "Server",
+      "help": "Help"
+    },
     "welcome": {
-      "title": "👋 Welcome!",
-      "description": "{member} joined our server! Welcome aboard, have fun.",
-      "memberCountField": "Member Count"
+      "title": "Welcome Aboard",
+      "description": "{member} drifted into the server — say hi and pick your colors!",
+      "memberCountField": "Members now"
     },
     "leave": {
-      "title": "👋 Goodbye",
-      "description": "**{userTag}** left our server.",
-      "memberCountField": "Member Count"
+      "title": "See You Soon",
+      "description": "**{userTag}** left the reef. Catch you later!",
+      "memberCountField": "Members now"
     },
     "colorMenu": {
-      "title": "🎨 Color Selection",
-      "description": "Pick a color from the menu below to change your name color.\nSelecting another color replaces the previous one. Use the \"Remove\" option to clear your selection."
+      "title": "Color Selection",
+      "description": "Pick a color from the menu below to tint your name.\nA new pick replaces the old one · **Remove** clears it all."
     },
     "genderMenu": {
-      "title": "🚻 Gender Selection",
-      "description": "Pick a gender role from the menu below.\nSelecting another option replaces the previous one. Use the \"Remove\" option to clear your selection."
+      "title": "Gender Selection",
+      "description": "Choose a role from the menu below.\nOne active pick at a time · **Remove** clears your choice."
     },
     "roleMenu": {
-      "title": "🏷️ Role Selection",
-      "description": "Choose the roles you want below to receive notifications for your interests.\nYou can select multiple roles and click again to remove them."
+      "title": "Role Selection",
+      "description": "Tap the buttons below for ping roles you want.\nMultiple picks allowed · tap again to drop a role."
     },
     "moderation": {
       "titleTemplate": "🔨 {action}",
@@ -42,7 +67,7 @@
   },
   "interactions": {
     "genericCommandError": "An error occurred while running this command.",
-    "genericComponentError": "This action could not be completed. Make sure the bot's role is above the target role and that role IDs in the config files are correct.",
+    "genericComponentError": "This action could not be completed. Make sure the bot's role is above the target role and that the role is configured with /setup.",
     "exclusiveRoleRemoved": "{label} selection removed.",
     "exclusiveRoleSet": "{label} set successfully!",
     "reactionRoleRemoved": "🏷️ Role removed.",
@@ -126,7 +151,7 @@
       "noneDeleted": "⚠️ No messages could be deleted (messages older than 14 days cannot be bulk deleted)."
     },
     "ayarla": {
-      "description": "Configure bot settings. (Staff)",
+      "description": "Configure bot settings for this server. (Staff)",
       "welcomeChannel": {
         "subcommandDescription": "Set the channel for welcome messages.",
         "channelOptionDescription": "Channel for welcome messages",
@@ -136,6 +161,111 @@
         "subcommandDescription": "Set the channel for leave messages.",
         "channelOptionDescription": "Channel for leave messages",
         "success": "✅ Leave messages will now be sent to {channel}."
+      },
+      "arrayErrors": {
+        "duplicate": "⚠️ This role is already in the list.",
+        "max": "⚠️ You can add up to {max} roles."
+      },
+      "roleErrors": {
+        "missing": "❌ Role not found.",
+        "managed": "❌ Integration or bot-managed roles cannot be used.",
+        "hierarchy": "❌ Move the bot role above this role in Server Settings → Roles."
+      },
+      "colorMenu": {
+        "groupDescription": "Configure color roles for the color selection menu.",
+        "add": {
+          "subcommandDescription": "Add a color role to the menu.",
+          "roleOptionDescription": "Discord role to add",
+          "labelOptionDescription": "Label shown in the dropdown",
+          "hexOptionDescription": "Hex color code (e.g. #A8C69F)",
+          "emojiOptionDescription": "Emoji shown next to the option",
+          "invalidHex": "❌ Invalid hex color. Use format `#RRGGBB`.",
+          "success": "✅ Added {role} with color {hex}. Run `/color-menu` to post the menu."
+        },
+        "remove": {
+          "subcommandDescription": "Remove a color role from the menu.",
+          "roleOptionDescription": "Role to remove",
+          "notFound": "⚠️ That role is not in the color menu list.",
+          "success": "✅ Removed {role} from the color menu."
+        },
+        "list": {
+          "subcommandDescription": "List configured color roles.",
+          "success": "**Color roles:**\n{list}"
+        }
+      },
+      "genderMenu": {
+        "groupDescription": "Configure gender roles for the gender selection menu.",
+        "add": {
+          "subcommandDescription": "Add a gender role to the menu.",
+          "roleOptionDescription": "Discord role to add",
+          "labelOptionDescription": "Label shown in the dropdown",
+          "emojiOptionDescription": "Emoji shown next to the option",
+          "success": "✅ Added {role}. Run `/gender-menu` to post the menu."
+        },
+        "remove": {
+          "subcommandDescription": "Remove a gender role from the menu.",
+          "roleOptionDescription": "Role to remove",
+          "notFound": "⚠️ That role is not in the gender menu list.",
+          "success": "✅ Removed {role} from the gender menu."
+        },
+        "list": {
+          "subcommandDescription": "List configured gender roles.",
+          "success": "**Gender roles:**\n{list}"
+        }
+      },
+      "roleMenu": {
+        "groupDescription": "Configure interest/notification roles for the button menu.",
+        "add": {
+          "subcommandDescription": "Add a role to the button menu.",
+          "roleOptionDescription": "Discord role to add",
+          "labelOptionDescription": "Button label",
+          "emojiOptionDescription": "Emoji on the button",
+          "styleOptionDescription": "Button color style",
+          "invalidStyle": "❌ Invalid button style.",
+          "success": "✅ Added {role}. Run `/role-menu` to post the menu."
+        },
+        "remove": {
+          "subcommandDescription": "Remove a role from the button menu.",
+          "roleOptionDescription": "Role to remove",
+          "notFound": "⚠️ That role is not in the role menu list.",
+          "success": "✅ Removed {role} from the role menu."
+        },
+        "list": {
+          "subcommandDescription": "List configured button roles.",
+          "success": "**Role menu roles:**\n{list}"
+        }
+      },
+      "rules": {
+        "groupDescription": "Configure server rules shown by /rules.",
+        "setTitle": {
+          "subcommandDescription": "Set the rules embed title.",
+          "titleOptionDescription": "New title",
+          "success": "✅ Rules title set to: **{title}**"
+        },
+        "setDescription": {
+          "subcommandDescription": "Set the rules embed description.",
+          "descriptionOptionDescription": "New description",
+          "success": "✅ Rules description updated."
+        },
+        "add": {
+          "subcommandDescription": "Add a rule line.",
+          "ruleOptionDescription": "Rule text",
+          "success": "✅ Rule #{index} added."
+        },
+        "remove": {
+          "subcommandDescription": "Remove a rule by its number.",
+          "indexOptionDescription": "Rule number (from /setup rules list)",
+          "notFound": "⚠️ No rule with that number.",
+          "success": "✅ Rule #{index} removed."
+        },
+        "list": {
+          "subcommandDescription": "Show configured rules.",
+          "success": "**{title}**\n{description}\n\n{rules}"
+        },
+        "reset": {
+          "subcommandDescription": "Reset rules to the default template.",
+          "success": "✅ Rules reset to defaults."
+        }
       }
     },
     "kurallar": {
@@ -143,17 +273,17 @@
     },
     "renkMenusu": {
       "description": "Send the color selection menu to this channel. (Staff)",
-      "missingRoleIds": "⚠️ Some role IDs in `src/config/colorRoles.js` are still placeholders (e.g. `RED_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "missingRoleIds": "⚠️ No color roles configured yet. Add roles with `/setup color-menu add` first.",
       "success": "✅ Color menu sent and role colors synced."
     },
     "cinsiyetMenusu": {
       "description": "Send the gender selection menu to this channel. (Staff)",
-      "missingRoleIds": "⚠️ Some role IDs in `src/config/genderRoles.js` are still placeholders (e.g. `MALE_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "missingRoleIds": "⚠️ No gender roles configured yet. Add roles with `/setup gender-menu add` first.",
       "success": "✅ Gender menu sent."
     },
     "rolMenusu": {
       "description": "Send the role selection menu to this channel. (Staff)",
-      "missingRoleIds": "⚠️ Some role IDs in `src/config/reactionRoles.js` are still placeholders (e.g. `GAME_ROLE_ID`). Enter real role IDs before sending the menu.",
+      "missingRoleIds": "⚠️ No roles configured yet. Add roles with `/setup role-menu add` first.",
       "success": "✅ Role menu sent."
     },
     "userinfo": {
@@ -187,6 +317,18 @@
       },
       "embedTitle": "🖼️ {tag}'s Avatar"
     },
+    "language": {
+      "description": "Set your preferred bot language.",
+      "options": {
+        "code": "Language code"
+      },
+      "names": {
+        "tr": "Turkish",
+        "en": "English"
+      },
+      "success": "Language set to **{language}**. Your next bot messages will use this language.",
+      "invalid": "That language is not supported."
+    },
     "yardim": {
       "description": "List all commands by category.",
       "embedTitle": "📖 Commands",
@@ -207,6 +349,31 @@
       "description": "Disconnect the bot from its voice channel.",
       "notConnected": "ℹ️ I'm not in a voice channel right now.",
       "success": "👋 Left the voice channel."
+    },
+    "lofi": {
+      "description": "Play soft lofi music in your voice channel.",
+      "notInVoice": "❌ Join a voice channel first.",
+      "cannotJoin": "❌ I can't join this voice channel. Check my Connect permission.",
+      "success": "🎧 Now playing soft lofi in {channel}. Use `/music stop` or `/leave` to stop.",
+      "playbackError": "❌ Could not start lofi playback. Try again in a moment."
+    },
+    "music": {
+      "description": "Control music playback.",
+      "stop": {
+        "subcommandDescription": "Stop music and disconnect from voice.",
+        "success": "⏹️ Music stopped."
+      },
+      "volume": {
+        "subcommandDescription": "Set playback volume (1–100).",
+        "levelOptionDescription": "Volume level",
+        "notPlaying": "ℹ️ Nothing is playing right now.",
+        "success": "🔊 Volume set to {level}%."
+      },
+      "nowPlaying": {
+        "subcommandDescription": "Check if lofi music is playing.",
+        "playing": "🎧 Soft lofi is playing in a voice channel.",
+        "notPlaying": "ℹ️ No music is playing right now."
+      }
     }
   }
 }
